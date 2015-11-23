@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.example.photogallery.model.GalleryAllDataContainer;
 import com.example.photogallery.model.GalleryCategoryDataContainer;
 import com.example.photogallery.model.GalleryDataContainer;
+import com.example.photogallery.utils.Constants;
 
 public class GalleryDataParser extends BaseParser{
 	private GalleryCategoryDataContainer categoryContainer;
@@ -19,33 +20,20 @@ public class GalleryDataParser extends BaseParser{
     private GalleryAllDataContainer allCategoryContainer;
 	private ArrayList<GalleryCategoryDataContainer> categoryContainerList;
 	private String reponseString;
-
     private ArrayList<JSONArray> jsonArrays = new ArrayList<JSONArray>();
 
-    public GalleryDataParser(byte[] responseData) {
-    	categoryContainerList =  new ArrayList<GalleryCategoryDataContainer>();
-        this.reponseString = new String(responseData);
-        allCategoryContainer = new GalleryAllDataContainer();
-        categoryList.add("animals");
-        categoryList.add("birds");
-        categoryList.add("flags");
-        categoryList.add("flowers");
-        categoryList.add("fruits");
-        categoryList.add("technology");
-        categoryList.add("vegetables");
-    }
     
     public GalleryDataParser(String responseData) {
     	categoryContainerList =  new ArrayList<GalleryCategoryDataContainer>();
         this.reponseString = new String(responseData);
         allCategoryContainer = new GalleryAllDataContainer();
-        categoryList.add("animals");
-        categoryList.add("birds");
-        categoryList.add("flags");
-        categoryList.add("flowers");
-        categoryList.add("fruits");
-        categoryList.add("technology");
-        categoryList.add("vegetables");
+        categoryList.add(Constants.CATEGORY_ANIMAL);
+        categoryList.add(Constants.CATEGORY_BIRDS);
+        categoryList.add(Constants.CATEGORY_FLAGS);
+        categoryList.add(Constants.CATEGORY_FLOWERS);
+        categoryList.add(Constants.CATEGORY_FRUITS);
+        categoryList.add(Constants.CATEGORY_TECHNOLOGY);
+        categoryList.add(Constants.CATEGORY_VEGETABLES);
     }
 
     public GalleryAllDataContainer categoryParser(){
@@ -60,7 +48,6 @@ public class GalleryDataParser extends BaseParser{
                 dataContainerList = new ArrayList<GalleryDataContainer>();
                 JSONArray jsonArray = jsonObject.optJSONArray(iteratorKeys.next());
                 jsonArrays.add(jsonArray);
-                //categoryList.add(jsonArray.)
                 for (int j=0;j<jsonArray.length();j++) {
                     dataContainer = new GalleryDataContainer();
                     JSONObject jsonObjectData = jsonArray.getJSONObject(j);

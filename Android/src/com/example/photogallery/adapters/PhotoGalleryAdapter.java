@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.photogallery.R;
 import com.example.photogallery.model.GalleryCategoryDataContainer;
 import com.example.photogallery.model.GalleryDataContainer;
+import com.example.photogallery.utils.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -42,9 +43,9 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
     public PhotoGalleryAdapter(Activity activity, ArrayList<GalleryCategoryDataContainer> data, DisplayImageOptions options, ImageView imageView) {
 
         /********** Take passed values **********/
-        activity = activity;
-        data=data;
-        options = options;
+        this.activity = activity;
+        this.data=data;
+        this.options = options;
         selectedImageView = imageView;
         /***********  Layout inflator to call external xml layout () ***********/
         inflater = ( LayoutInflater )activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -120,18 +121,17 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
                     LayoutParams params = new LayoutParams(pixels,pixels);
                     params.setMargins(paddingPixel, paddingPixel, paddingPixel, paddingPixel);
                     imageView.setLayoutParams(params);
-                   // imageView.setPadding(paddingPixel, paddingPixel, paddingPixel, paddingPixel);
-                    //imageView.setBackgroundColor(Color.WHITE);
                     imageView.setLayoutParams(new LinearLayout.LayoutParams(pixels, pixels));
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ImageLoader.getInstance().displayImage(dataItem.getImgURL(), selectedImageView, options);
+                            ImageLoader.getInstance().displayImage(Constants.BASE_URL+dataItem.getImgURL(), selectedImageView, options);
                         }
                     });
                     
                     holder.lv_item_type.addView(imageView);
-                    ImageLoader.getInstance().displayImage(dataItem.getImgURL(), imageView, options);
+                    System.out.println("Image URL "+dataItem.getImgURL());
+                    ImageLoader.getInstance().displayImage(Constants.BASE_URL+dataItem.getImgURL(), imageView, options);
                     allReadyAddItem.add(dataItem.getName().toString());
             }
         }

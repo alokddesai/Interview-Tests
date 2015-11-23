@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.photogallery.model.GalleryCategoryDataContainer;
 import com.example.photogallery.model.GalleryDataContainer;
 import com.example.photogallery.network.NetworkHelper;
 import com.example.photogallery.parser.GalleryDataParser;
+import com.example.photogallery.utils.Constants;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -47,22 +49,19 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		//initImageLoader(this);
+		initImageLoader(this);
 		initDisplayOptions();
 
-		selectedImageView = (ImageView) findViewById(R.id.selected_image_view_id);
-		categoryList.add("animals");
-		categoryList.add("birds");
-		categoryList.add("flags");
-		categoryList.add("flowers");
-		categoryList.add("fruits");
-		categoryList.add("technology");
-		categoryList.add("vegetables");
+		
 
 		// Initialize members
 		galleryListView = (ListView) findViewById(R.id.lv_gallery_items);
+		selectedImageView = (ImageView) findViewById(R.id.selected_image_view_id);
 
+		
+		// Call gallery response data 
 		new GetImageData().execute();
 	}
 
@@ -71,14 +70,11 @@ public class MainActivity extends BaseActivity {
 		@Override
 		protected String doInBackground(String... params) {
 
-			
-			  NetworkHelper jsonParser = new NetworkHelper("http://192.168.10.104/imageData.php");
-			  //jsonObject = jsonParser.getJSONFromUrl();
+			  String URL = Constants.BASE_URL+Constants.GALLERY_URL;
+			  NetworkHelper jsonParser = new NetworkHelper(URL);
 			  cateDataParser = new GalleryDataParser(jsonParser.getResponseFromUrl());
 			  allCategoryContainer = cateDataParser.categoryParser();
 			 
-
-			// getMockData();
 
 			return null;
 		}

@@ -9,7 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:background="@color/gallery_row_background"
         android:paddingLeft="5dp"
         android:text="TextView"
         android:textAllCaps="true"
