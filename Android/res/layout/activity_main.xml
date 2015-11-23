@@ -50,7 +50,7 @@
         </ScrollView>
 
         <ListView
-            android:id="@+id/lv_category_of_components"
+            android:id="@+id/lv_gallery_items"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
