@@ -48,10 +48,7 @@ public class MainActivity extends BaseActivity {
 			selectedImageView = (ImageView) findViewById(R.id.selected_image_view_id);
 			// Call gallery response data 
 			new GetImageData().execute();
-		}
-		
-		
-		
+		}		
 	}
 
 	public class GetImageData extends AsyncTask<String, Integer, String> {
@@ -104,10 +101,5 @@ public class MainActivity extends BaseActivity {
 		config.writeDebugLogs(); // Remove for release app
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config.build());
-	}
-
-
-
-   
-    
+	}    
 }

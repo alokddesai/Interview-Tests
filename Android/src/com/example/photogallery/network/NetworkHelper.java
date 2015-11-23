@@ -22,25 +22,20 @@ public class NetworkHelper extends BaseNetwork{
     private JSONObject jObj = null;
     private String json = "";
     private String URL = "";
- 
     // constructor
     public NetworkHelper(String url) {
     	this.URL = url;
     }
-    
     public String getResponseFromUrl() {
-    	 
         // Making HTTP request
     	String responseString = "";
         try {
             // defaultHttpClient
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(URL);
- 
             HttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
             is = httpEntity.getContent();
- 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -48,7 +43,6 @@ public class NetworkHelper extends BaseNetwork{
         } catch (IOException e) {
             e.printStackTrace();
         }
- 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     is, "iso-8859-1"), 8);
@@ -62,16 +56,13 @@ public class NetworkHelper extends BaseNetwork{
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
- 
         // try parse the string to a JSON object
         try {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
- 
         // return JSON String
         return responseString;
- 
     }
 }

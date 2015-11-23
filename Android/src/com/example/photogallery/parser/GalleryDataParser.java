@@ -1,12 +1,9 @@
 package com.example.photogallery.parser;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import com.example.photogallery.model.GalleryAllDataContainer;
 import com.example.photogallery.model.GalleryCategoryDataContainer;
 import com.example.photogallery.model.GalleryDataContainer;
@@ -21,7 +18,6 @@ public class GalleryDataParser extends BaseParser{
 	private ArrayList<GalleryCategoryDataContainer> categoryContainerList;
 	private String reponseString;
     private ArrayList<JSONArray> jsonArrays = new ArrayList<JSONArray>();
-
     
     public GalleryDataParser(String responseData) {
     	categoryContainerList =  new ArrayList<GalleryCategoryDataContainer>();
@@ -38,7 +34,6 @@ public class GalleryDataParser extends BaseParser{
 
     public GalleryAllDataContainer categoryParser(){
         categoryContainerList =  new ArrayList<GalleryCategoryDataContainer>();
-
         try {
             JSONObject jsonObject = new JSONObject(reponseString);
             Iterator<String> iteratorKeys = jsonObject.keys();
@@ -51,10 +46,8 @@ public class GalleryDataParser extends BaseParser{
                 for (int j=0;j<jsonArray.length();j++) {
                     dataContainer = new GalleryDataContainer();
                     JSONObject jsonObjectData = jsonArray.getJSONObject(j);
-
                     String name = jsonObjectData.optString(imageNameConstant).toString();
                     String imageUrl = jsonObjectData.optString(imageUrlConstant).toString();
-
                     dataContainer.setName(name);
                     dataContainer.setImgURL(imageUrl);
                     dataContainerList.add(dataContainer);
@@ -65,7 +58,6 @@ public class GalleryDataParser extends BaseParser{
                 i++;
             }
             allCategoryContainer.setDataAllContainersCotegoryList(categoryContainerList);
-
         } catch (Exception e) {
             e.printStackTrace();
             allCategoryContainer.setDataAllContainersCotegoryList(categoryContainerList);
