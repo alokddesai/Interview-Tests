@@ -14,8 +14,8 @@ import com.example.photogallery.utils.Constants;
 
 public class GalleryDataParser extends BaseParser{
 	private GalleryCategoryDataContainer categoryContainer;
-	ArrayList<GalleryDataContainer> dataContainerList;
-	ArrayList<String> categoryList = new ArrayList<String>();
+	private ArrayList<GalleryDataContainer> dataContainerList;
+	private ArrayList<String> categoryList = new ArrayList<String>();
     private GalleryDataContainer dataContainer;
     private GalleryAllDataContainer allCategoryContainer;
 	private ArrayList<GalleryCategoryDataContainer> categoryContainerList;
@@ -51,10 +51,9 @@ public class GalleryDataParser extends BaseParser{
                 for (int j=0;j<jsonArray.length();j++) {
                     dataContainer = new GalleryDataContainer();
                     JSONObject jsonObjectData = jsonArray.getJSONObject(j);
-                    // TODO: Remove the hardcoded strings.
 
-                    String name = jsonObjectData.optString("name").toString();
-                    String imageUrl = jsonObjectData.optString("imgURL").toString();
+                    String name = jsonObjectData.optString(imageNameConstant).toString();
+                    String imageUrl = jsonObjectData.optString(imageUrlConstant).toString();
 
                     dataContainer.setName(name);
                     dataContainer.setImgURL(imageUrl);
@@ -66,7 +65,7 @@ public class GalleryDataParser extends BaseParser{
                 i++;
             }
             allCategoryContainer.setDataAllContainersCotegoryList(categoryContainerList);
-//            categoryContainer.setJsonArrays(jsonArrays);
+
         } catch (Exception e) {
             e.printStackTrace();
             allCategoryContainer.setDataAllContainersCotegoryList(categoryContainerList);

@@ -18,10 +18,10 @@ import android.util.Log;
  
 public class NetworkHelper extends BaseNetwork{
  
-    static InputStream is = null;
-    static JSONObject jObj = null;
-    static String json = "";
-    String URL = "";
+    private InputStream is = null;
+    private JSONObject jObj = null;
+    private String json = "";
+    private String URL = "";
  
     // constructor
     public NetworkHelper(String url) {

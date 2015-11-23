@@ -1,5 +1,8 @@
 package com.example.photogallery.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 public class Constants {
 	
 	// Base URL
@@ -16,5 +19,5 @@ public class Constants {
 	public static final String CATEGORY_FRUITS = "FRUITS";
 	public static final String CATEGORY_TECHNOLOGY = "TECHNOLOGY";
 	public static final String CATEGORY_VEGETABLES = "VEGETABLES";
-	
+
 }

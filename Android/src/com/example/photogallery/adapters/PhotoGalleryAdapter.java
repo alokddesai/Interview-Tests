@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.photogallery.R;
 import com.example.photogallery.model.GalleryCategoryDataContainer;
@@ -22,22 +22,17 @@ import com.example.photogallery.utils.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-/**
- * Created by cuelogic on 20/11/15.
- */
-public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickListener{
-
-
+public class PhotoGalleryAdapter extends BaseAdapter {
     /*********** Declare Used Variables *********/
     private Activity activity;
     private ImageView selectedImageView;
     private ArrayList<GalleryCategoryDataContainer> data;
     private static LayoutInflater inflater=null;
-    public Resources res;
-    DisplayImageOptions options;
-    GalleryCategoryDataContainer tempValues=null;
-    ArrayList<String> allReadyAddItem = new ArrayList<String>();
-    int i=0;
+    private Resources res;
+    private DisplayImageOptions options;
+    private GalleryCategoryDataContainer tempValues=null;
+    private ArrayList<String> allReadyAddItem = new ArrayList<String>();
+    private int i=0;
 
     /*************  CustomAdapter Constructor *****************/
     public PhotoGalleryAdapter(Activity activity, ArrayList<GalleryCategoryDataContainer> data, DisplayImageOptions options, ImageView imageView) {
@@ -49,14 +44,13 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
         selectedImageView = imageView;
         /***********  Layout inflator to call external xml layout () ***********/
         inflater = ( LayoutInflater )activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
     public int getCount() {
-        if(data.size()<=0)
-            return 1;
-        return data.size();
+        if(data.size() > 0)
+            return data.size();
+        return 0;
     }
 
     @Override
@@ -71,33 +65,29 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
 
     /********* Create a holder Class to contain inflated xml file elements *********/
     public static class ViewHolder{
-        public TextView tv_category_title;
-        public LinearLayout lv_item_type;
-
+        TextView tv_category_title;
+        LinearLayout lv_item_type;
     }
 
     /****** Depends upon data size called for each row , Create each ListView row *****/
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
+        View view = convertView;
         ViewHolder holder;
             if (convertView==null) {
                 /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
-                vi = inflater.inflate(R.layout.gallery_item_row, null);
+                view = inflater.inflate(R.layout.gallery_item_row, null);
                 /****** View Holder Object to contain tabitem.xml file elements ******/
                 holder = new ViewHolder();
-                holder.tv_category_title = (TextView)vi.findViewById(R.id.tv_category_type);
-                holder.lv_item_type = (LinearLayout)vi.findViewById(R.id.lv_image_type);
+                holder.tv_category_title = (TextView)view.findViewById(R.id.tv_category_type);
+                holder.lv_item_type = (LinearLayout)view.findViewById(R.id.lv_image_type);
                 /************  Set holder with LayoutInflater ************/
-                vi.setTag( holder );
-
-
+                view.setTag(holder);
             } else {
-                holder = (ViewHolder) vi.getTag();
+                holder = (ViewHolder) view.getTag();
             }
 
-        if(data.size()<=0)
-        {
+        if(data.size()<=0) {
             holder.tv_category_title.setText("No Data");
 
         }
@@ -126,6 +116,7 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
                         @Override
                         public void onClick(View v) {
                             ImageLoader.getInstance().displayImage(Constants.BASE_URL+dataItem.getImgURL(), selectedImageView, options);
+                            Toast.makeText(activity, dataItem.getName(), Toast.LENGTH_SHORT).show();
                         }
                     });
                     
@@ -136,12 +127,9 @@ public class PhotoGalleryAdapter extends BaseAdapter implements View.OnClickList
             }
         }
         notifyDataSetChanged();
-        return vi;
-//        return null;
-    }
-
-    @Override
-    public void onClick(View v) {
+        return view;
 
     }
+
+ 
 }

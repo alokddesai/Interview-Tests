@@ -1,11 +1,5 @@
 package com.example.photogallery;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -17,8 +11,7 @@ import android.widget.Toast;
 
 import com.example.photogallery.adapters.PhotoGalleryAdapter;
 import com.example.photogallery.model.GalleryAllDataContainer;
-import com.example.photogallery.model.GalleryCategoryDataContainer;
-import com.example.photogallery.model.GalleryDataContainer;
+import com.example.photogallery.network.NetworkCheck;
 import com.example.photogallery.network.NetworkHelper;
 import com.example.photogallery.parser.GalleryDataParser;
 import com.example.photogallery.utils.Constants;
@@ -32,37 +25,33 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 public class MainActivity extends BaseActivity {
 	
 	// Declaring all data members
-	private ArrayList<JSONArray> jsonArrays = new ArrayList<JSONArray>();
-	private GalleryCategoryDataContainer categoryContainer;
-	private GalleryDataContainer dataContainer;
 	private ImageView selectedImageView;
-	private ArrayList<String> categoryList = new ArrayList<String>();
-	private ArrayList<GalleryDataContainer> dataContainerList = new ArrayList<GalleryDataContainer>();
-	private ArrayList<GalleryCategoryDataContainer> categoryContainerList = new ArrayList<GalleryCategoryDataContainer>();
 	private GalleryAllDataContainer allCategoryContainer = new GalleryAllDataContainer();
 	private DisplayImageOptions options;
 	private PhotoGalleryAdapter adapter;
 	private ListView galleryListView;
-	private JSONObject jsonObject;
-	GalleryDataParser cateDataParser;
+	private GalleryDataParser cateDataParser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		initImageLoader(this);
-		initDisplayOptions();
-
 		
-
-		// Initialize members
-		galleryListView = (ListView) findViewById(R.id.lv_gallery_items);
-		selectedImageView = (ImageView) findViewById(R.id.selected_image_view_id);
-
+		if(NetworkCheck.isNetworkAvailable(MainActivity.this) == false){
+			Toast.makeText(MainActivity.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+		}else {
+			initImageLoader(this);
+			initDisplayOptions();
+			// Initialize members
+			galleryListView = (ListView) findViewById(R.id.lv_gallery_items);
+			selectedImageView = (ImageView) findViewById(R.id.selected_image_view_id);
+			// Call gallery response data 
+			new GetImageData().execute();
+		}
 		
-		// Call gallery response data 
-		new GetImageData().execute();
+		
+		
 	}
 
 	public class GetImageData extends AsyncTask<String, Integer, String> {
@@ -74,15 +63,13 @@ public class MainActivity extends BaseActivity {
 			  NetworkHelper jsonParser = new NetworkHelper(URL);
 			  cateDataParser = new GalleryDataParser(jsonParser.getResponseFromUrl());
 			  allCategoryContainer = cateDataParser.categoryParser();
-			 
-
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
 
-			
+			super.onPostExecute(result);
 			if(allCategoryContainer.getDataAllContainersCotegoryList().size() != 0){
 			adapter = new PhotoGalleryAdapter(MainActivity.this, allCategoryContainer.getDataAllContainersCotegoryList(),
 					options, selectedImageView);
@@ -91,13 +78,8 @@ public class MainActivity extends BaseActivity {
 			else {
 				Toast.makeText(MainActivity.this, "No Data", Toast.LENGTH_SHORT).show();
 			}
-
-			super.onPostExecute(result);
 		}
-
 	}
-
-	
 
 	private void initDisplayOptions() {
 		options = new DisplayImageOptions.Builder().cacheInMemory(true)

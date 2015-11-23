@@ -2,5 +2,6 @@
 <resources>
     
     <color name="gallery_row_background">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     
 </resources>
